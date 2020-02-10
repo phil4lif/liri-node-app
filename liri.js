@@ -26,11 +26,24 @@ axios.get(queryUrl).then(
 }   
 function movieThis(){
     var movieName = process.argv.slice(3).join(" ");
+    if(process.argv.length < 4){
+        movieName = "Mr Nobody"
+    }else{
+        movieName = process.argv.slice(3).join(" ");
+    }
+    console.log(movieName);
     var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy"
     axios.get(queryUrl).then(
         function(response) {
             var results = response.data
-            console.log(results)
+            console.log(results.Title)
+            console.log(results.Year)
+            console.log(results.imdbRating)
+            console.log(results.Ratings[1].source + results.Ratings[1].value)
+            console.log(results.Country)
+            console.log(results.Language)
+            console.log(results.Plot)
+            console.log(results.Actors)
         }
     )
 
