@@ -27,6 +27,12 @@ axios.get(queryUrl).then(
 function movieThis(){
     var movieName = process.argv.slice(3).join(" ");
     var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy"
+    axios.get(queryUrl).then(
+        function(response) {
+            var results = response.data
+            console.log(results)
+        }
+    )
 
 }
 // function spotifyThis(){
