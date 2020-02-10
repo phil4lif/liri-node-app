@@ -2,14 +2,15 @@ require("dotenv").config();
 
 var keys = require("./keys.js");
 var axios =  require("axios");
+var moment = require("moment");
 
 // var spotify = new Spotify(keys.spotify);
 
 var command = process.argv[2];
 
 function concertThis(){
-var artist = process.argv[3]
-
+var artist = process.argv.slice(3).join(" ");
+console.log(artist);
 var queryUrl = "https://rest.bandsintown.com/artists/"+ artist +"/events?app_id=codingbootcamp"
 axios.get(queryUrl).then(
     function(response) {
@@ -18,13 +19,15 @@ axios.get(queryUrl).then(
             var venueName = results[i].venue.name;
             var venueLoc = results[i].venue.city
             var date = results[i].datetime
-            console.log(venueName+" "+venueLoc+" "+date)
+            console.log(venueName+" "+venueLoc+" "+ moment(date).format("MM/DD/YYYY"))
         }
-        // console.log(results[1])
-        // console.log(results)
-    //   var results=response.data
-    //   console.log(results.Year);
+
     })
+}   
+function movieThis(){
+    var movieName = process.argv.slice(3).join(" ");
+    var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy"
+
 }
 // function spotifyThis(){
 //     var song = process.argv[3];
@@ -32,14 +35,13 @@ axios.get(queryUrl).then(
 // }
 switch (command) {
     case 'concert-this':
-        concertThis()
-      console.log('concert this');
+        concertThis();
       break;
     case 'spotify-this-song':
-        console.log("spotify this")
+        spotifyThis();
         break;
     case 'movie-this':
-      console.log('Movie this');
+        movieThis();
       // expected output: "Mangoes and papayas are $2.79 a pound."
       break;
     default:
