@@ -5,7 +5,16 @@ var fs = require("fs");
 
 var command = process.argv[2];
 var searchText = process.argv.slice(3).join(" ");
+var log = "\n______________\n" + command +" "+ searchText + "\n"
 function concertThis() {
+    fs.appendFile("log.txt", log, function(err){
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log("command and search text logged")
+        }
+    })
     var queryUrl = "https://rest.bandsintown.com/artists/" + searchText + "/events?app_id=codingbootcamp"
     axios.get(queryUrl).then(
         function (response) {
@@ -16,7 +25,18 @@ function concertThis() {
                 var date = results[i].datetime
                 console.log(venueName + " \n" + venueLoc + " \n" + moment(date).format("MM/DD/YYYY"))
                 console.log("___________________________\n")
-            }
+                var logResults = venueName + " \n" + venueLoc + " \n" + moment(date).format("MM/DD/YYYY") + "\n"
+                fs.appendFile("log.txt", logResults, function(err){
+                    if(err){
+                        console.log(err);
+                    }
+                    else{
+                        // console.log("results logged")
+                    }
+                })
+            }                
+
+
             if (results.length === 0) {
                 console.log("This Band is not on tour")
             }
