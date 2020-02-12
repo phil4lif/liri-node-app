@@ -1,5 +1,4 @@
 require("dotenv").config();
-var Spotify = require("node-spotify-api")
 var keys = require("./keys.js");
 var axios = require("axios");
 var moment = require("moment");
@@ -24,6 +23,8 @@ function concertThis() {
         })
 }
 function spotifyThis() {
+var Spotify = require("node-spotify-api")
+
 var spotify = new Spotify(keys.spotify);
 
     var song = process.argv.slice(3).join(" ");
@@ -31,11 +32,17 @@ var spotify = new Spotify(keys.spotify);
     spotify
         .search({ type: 'track', query: song })
         .then(function (response) {
-            console.log(response);
+            // console.log(response);
+            var results=(response.tracks[0])
+            console.log(results)
+            // for (var i = 0; i < results.lenth; i++) {
+            //     console.log(results[i])
+            // }
         })
         .catch(function (err) {
             console.log(err);
         });
+        
 }
 
 
