@@ -5,7 +5,7 @@ var fs = require("fs");
 
 var command = process.argv[2];
 var searchText = process.argv.slice(3).join(" ");
-var log = "\n______________\n" + command +" "+ searchText + "\n"
+var log = "\n" + command +" "+ searchText + "\n____________\n"
 function concertThis() {
     fs.appendFile("log.txt", log, function(err){
         if(err){
@@ -48,6 +48,14 @@ function spotifyThis() {
     var Spotify = require("node-spotify-api")
 
     var spotify = new Spotify(keys.spotify);
+    fs.appendFile("log.txt", log, function(err){
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log("command and search text logged")
+        }
+    })
 
     // console.log(song);
     if (searchText.length === 0) {
@@ -60,11 +68,24 @@ function spotifyThis() {
             var results = (response.tracks.items)
             // console.log(results)
             for (var i = 0; i < results.length; i++) {
-                console.log(results[i].album.artists[0].name)
-                console.log(results[i].name)
-                console.log(results[i].preview_url)
-                console.log(results[i].album.name)
+                var artists = results[i].album.artists[0].name;
+                var name = results[i].name;
+                var preview = results[i].preview_url;
+                var album = results[i].album.name;
+                console.log(artists)
+                console.log(name)
+                console.log(preview)
+                console.log(album)
                 console.log("\n________________________________\n")
+                var logResults = artists + " \n" + name + " \n" + preview + "\n" + album + "\n"
+                fs.appendFile("log.txt", logResults, function(err){
+                    if(err){
+                        console.log(err);
+                    }
+                    else{
+                        // console.log("results logged")
+                    }
+                })
             }
             if (results.length === 0) {
                 console.log("Can not find this song, double check the title")
