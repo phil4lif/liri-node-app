@@ -165,7 +165,6 @@ function menu() {
         case 'do-what-it-says':
             doWhatItSays();
             break;
-        default:
     }
 }
 menu()
