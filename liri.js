@@ -2,16 +2,16 @@ var keys = require("./keys.js");
 var axios = require("axios");
 var moment = require("moment");
 var fs = require("fs");
-
 var command = process.argv[2];
 var searchText = process.argv.slice(3).join(" ");
-var log = "\n" + command +" "+ searchText + "\n____________\n"
+var log = "\n" + command + " " + searchText + "\n____________\n"
+
 function concertThis() {
-    fs.appendFile("log.txt", log, function(err){
-        if(err){
+    fs.appendFile("log.txt", log, function (err) {
+        if (err) {
             console.log(err);
         }
-        else{
+        else {
             console.log("command and search text logged")
         }
     })
@@ -25,39 +25,32 @@ function concertThis() {
                 var date = results[i].datetime
                 console.log(venueName + " \n" + venueLoc + " \n" + moment(date).format("MM/DD/YYYY"))
                 console.log("___________________________\n")
-                var logResults = venueName + " \n" + venueLoc + " \n" + moment(date).format("MM/DD/YYYY") + "\n"
-                fs.appendFile("log.txt", logResults, function(err){
-                    if(err){
+                var logResults = "____________________\n" + venueName + " \n" + venueLoc + " \n" + moment(date).format("MM/DD/YYYY") + "\n"
+                fs.appendFile("log.txt", logResults, function (err) {
+                    if (err) {
                         console.log(err);
                     }
-                    else{
+                    else {
                         // console.log("results logged")
                     }
                 })
-            }                
-
-
+            }
             if (results.length === 0) {
                 console.log("This Band is not on tour")
             }
-
-
         })
 }
 function spotifyThis() {
     var Spotify = require("node-spotify-api")
-
     var spotify = new Spotify(keys.spotify);
-    fs.appendFile("log.txt", log, function(err){
-        if(err){
+    fs.appendFile("log.txt", log, function (err) {
+        if (err) {
             console.log(err);
         }
-        else{
+        else {
             console.log("command and search text logged")
         }
     })
-
-    // console.log(song);
     if (searchText.length === 0) {
         searchText = "The Sign"
     }
@@ -78,11 +71,11 @@ function spotifyThis() {
                 console.log(album)
                 console.log("\n________________________________\n")
                 var logResults = artists + " \n" + name + " \n" + preview + "\n" + album + "\n"
-                fs.appendFile("log.txt", logResults, function(err){
-                    if(err){
+                fs.appendFile("log.txt", logResults, function (err) {
+                    if (err) {
                         console.log(err);
                     }
-                    else{
+                    else {
                         // console.log("results logged")
                     }
                 })
@@ -96,25 +89,12 @@ function spotifyThis() {
         });
 
 }
-function doWhatItSays() {
-    fs.readFile("random.txt", "utf8", function (error, data) {
-        if (error) {
-            return console.log(error);
-        }
-        var dataArr = data.split(",");
-        command = dataArr[0];
-        searchText = dataArr[1];
-        menu()
-    })
-
-}
-
 function movieThis() {
-    fs.appendFile("log.txt", log, function(err){
-        if(err){
+    fs.appendFile("log.txt", log, function (err) {
+        if (err) {
             console.log(err);
         }
-        else{
+        else {
             console.log("command and search text logged")
         }
     })
@@ -124,7 +104,6 @@ function movieThis() {
     var queryUrl = "http://www.omdbapi.com/?t=" + searchText + "&y=&plot=short&apikey=trilogy"
     axios.get(queryUrl).then(
         function (response) {
-
             var results = response.data
             // console.log(results)
             if (results.Title != undefined) {
@@ -144,12 +123,12 @@ function movieThis() {
                 console.log(languages)
                 console.log(plot)
                 console.log(cast)
-                var logResults = title + " \n" + year + " \n" + imdbRating + "\n" + rtRating + "\n" + country +"\n" + languages + "\n" + plot + "\n" + cast
-                fs.appendFile("log.txt", logResults, function(err){
-                    if(err){
+                var logResults = title + " \n" + year + " \n" + imdbRating + "\n" + rtRating + "\n" + country + "\n" + languages + "\n" + plot + "\n" + cast;
+                fs.appendFile("log.txt", logResults, function (err) {
+                    if (err) {
                         console.log(err);
                     }
-                    else{
+                    else {
                         // console.log("results logged")
                     }
                 })
@@ -158,13 +137,20 @@ function movieThis() {
             }
         }
     )
-
 }
-// function spotifyThis(){
-//     var song = process.argv[3];
-//     var queryUrl = 
-// }
-
+function doWhatItSays() {
+    fs.readFile("random.txt", "utf8", function (error, data) {
+        if (error) {
+            return console.log(error);
+        }
+        var dataArr = data.split(", ");
+        command = dataArr[0];
+        // console.log(command)
+        searchText = dataArr[1];
+        // console.log(searchText)
+        menu()
+    })
+}
 function menu() {
     switch (command) {
         case 'concert-this':
