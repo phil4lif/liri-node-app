@@ -110,6 +110,14 @@ function doWhatItSays() {
 }
 
 function movieThis() {
+    fs.appendFile("log.txt", log, function(err){
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log("command and search text logged")
+        }
+    })
     if (searchText.length === 0) {
         searchText = "Mr Nobody"
     }
@@ -120,14 +128,31 @@ function movieThis() {
             var results = response.data
             // console.log(results)
             if (results.Title != undefined) {
-                console.log("Title:" + results.Title)
-                console.log("Release Year:" + results.Year)
-                console.log("IMDB Rating:" + results.imdbRating)
-                console.log(results.Ratings[1].Source + ": " + results.Ratings[1].Value)
-                console.log("Country:" + results.Country)
-                console.log("Languages:" + results.Language)
-                console.log("Plot:" + results.Plot)
-                console.log("Cast:" + results.Actors)
+                var title = "Title: " + results.Title;
+                var year = "Release Year: " + results.Year;
+                var imdbRating = "IMDB Rating: " + results.imdbRating;
+                var rtRating = results.Ratings[1].Source + ": " + results.Ratings[1].Value;
+                var country = "Country: " + results.Country;
+                var languages = "Languages: " + results.Language;
+                var plot = "Plot: " + results.Plot;
+                var cast = "Cast: " + results.Actors
+                console.log(title)
+                console.log(year)
+                console.log(imdbRating)
+                console.log(rtRating)
+                console.log(country)
+                console.log(languages)
+                console.log(plot)
+                console.log(cast)
+                var logResults = title + " \n" + year + " \n" + imdbRating + "\n" + rtRating + "\n" + country +"\n" + languages + "\n" + plot + "\n" + cast
+                fs.appendFile("log.txt", logResults, function(err){
+                    if(err){
+                        console.log(err);
+                    }
+                    else{
+                        // console.log("results logged")
+                    }
+                })
             } else {
                 console.log("Can not retrieve this movie")
             }
