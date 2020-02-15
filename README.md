@@ -24,3 +24,8 @@ When the user inputs do-what-it-says the app will read the random.txt file and r
 
 In addition to the console, the results will be appended to the log.txt file.
 
+This app was written by Phil Cowan
+Dependencies are axios, dotenv, moment, node-spotify-api
+
+It uses axios to query omdb api, and bands in town api.
+
